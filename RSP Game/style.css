@@ -1,0 +1,72 @@
+body{
+  text-align: center;
+  margin: 0;
+}
+.fa-solid{
+  font-size: 3rem;
+}
+#game_start{
+  width: 100px;
+  height: 40px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s;
+  animation: growShrink 0.5s ease infinite alternate;
+}
+@keyframes growShrink {
+  0% {
+      transform: scale(1); /* 원래 크기 */
+  }
+  100% {
+    transform: scale(1.2); /* 1.1배 확대된 크기 */
+  }
+}
+#btn_rock{
+  position: relative;
+  left: -2rem;
+}
+#btn_paper{
+  position: relative;
+  right: -2rem;
+}
+.start_screen{
+  position: relative;
+  top: 40%;
+}
+.choose_screen{
+  position: relative;
+  top: 40%;
+}
+.result_screen{
+  position: relative;
+  top: 5%;
+}
+#countdown{
+  display: inline-block;
+  font-size: 4rem;
+  border: 1px solid;
+  border-radius: 50%;
+  padding: 6px 28px;
+  background-color: black;
+  color: white;
+  position: relative;
+  top: 15rem;
+}
+#content{
+  display: none;
+}
+#content p{
+  font-size: 2rem;
+}
+#restart{
+  font-size: 1.5rem;
+}
+#again{
+  font-size: 1.5rem;
+}
+.hidden{
+  display: none;
+}

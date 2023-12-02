@@ -1,0 +1,108 @@
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끝말잇기 게임</title>
+    <link rel="stylesheet" href="./style.css">
+<style>
+body{
+    margin: 0px;
+    background-color: grey;
+
+}
+header{
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    border-bottom: 1px solid black;
+}
+main{
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.divOrder{
+    font-size: 20px;
+}
+.divWord{
+    font-size: 30px;
+}
+</style>
+</head>
+<body>
+    <header>
+        <div class="title">끝말잇기 게임</div>
+    </header>
+    <main>
+        <div class="divOrder">
+            <span id="order">1</span>번째 참가자
+        </div>
+        <div class="divWord">
+            제시어: <span id="word"></span>
+        </div>
+        <div>
+            <input type="text"/><button>제출</button>
+        </div>
+    </main>
+<script>
+    const number = Number(prompt('몇 명이 참가하나요?'));
+    // 태그 선택하기
+    const $input = document.querySelector('input');
+    const $button = document.querySelector('button');
+    const $word = document.querySelector('#word');
+    const $order = document.querySelector('#order');
+    // 이벤트 달아야 하므로 콜백함수 만들어주기
+    let word; // 제시어, 초기화 안했으니 undefined -> if문에 들어가면 false
+    let newWord; // 현재 단어
+
+    const onInput = (event) => {
+        newWord = event.target.value; //입력한단어를 현재단어로
+    };
+
+    const onClickButton = () => {
+        if(!word){ // true이면 -> 단어가 비어있으면
+            word = newWord;
+            $word.textContent = word; // 태그 내부의 문자열을 가져옴
+            const order = Number($order.textContent);
+            if(order+1 > number) {
+                $order.textContent = 1;
+            }
+            else{
+                $order.textContent = order+1;
+            }
+            $input.value='';
+            $input.focus();
+        }
+        else{ //비어 있지 않으면
+            if(word[word.length-1] === newWord[0]){ // 올바르면
+                word = newWord;
+                $word.textContent = word; // 제시어 표시
+                const order = Number($order.textContent);
+                if(order+1 > number) {
+                $order.textContent = 1;
+                }
+                
+                else {
+                $order.textContent = order+1;
+                }
+                $input.value='';
+                $input.focus();
+            }
+
+            else{ //틀리면
+                alert('올바르지 않은 단어입니다.');
+                $input.value='';
+                $input.focus();
+            }
+        }
+    };
+
+    // 태그에 이벤트 달기
+    $input.addEventListener('input', onInput);
+    $button.addEventListener('click', onClickButton);
+    
+
+</script>
+</body>
+</html>

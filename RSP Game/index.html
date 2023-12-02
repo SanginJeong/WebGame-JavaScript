@@ -1,0 +1,45 @@
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://kit.fontawesome.com/3e7a68d981.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="start_screen">
+    <h1>Rock Scissors Paper Game</h1>
+    <button id="game_start">Game Start</button>
+  </div>
+  
+  <div class="choose_screen hidden">
+    <h2>Choose between Rock, Scissors, Paper</h2>
+    <button id="btn_rock"><i class="fa-solid fa-hand-back-fist"></i></button>
+    <button id="btn_scissors"><i class="fa-solid fa-hand-scissors"></i></button>
+    <button id="btn_paper"><i class="fa-solid fa-hand"></i></button>
+  </div>
+
+  <div class="result_screen hidden">
+    <div id="countdown">3</div>
+    <div id="content">
+      <div>
+        <p>Computer's pick</p>
+        <div class="computer_pick">
+          <!-- <i class="fa-solid fa-hand-back-fist"></i> -->
+        </div>
+        <p>VS</p>
+        <p>User's pick</p>
+        <div class="user_pick">
+          <!-- <i class="fa-solid fa-hand-scissors"></i> -->
+        </div>
+      </div>
+      <div>
+        <h2 class="confirm"></h2>
+        <button id="restart"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./scrript.js"></script>
+</body>
+</html>

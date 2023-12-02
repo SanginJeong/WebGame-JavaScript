@@ -1,0 +1,76 @@
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>반응속도 테스트</title>
+</head>
+<style>
+  body{
+    margin: 0;
+  }
+  #screen{
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  #screen.waiting{
+    background-color: aqua;
+  }
+  #screen.ready{
+    background-color: red;
+    color: white;
+  }
+  #screen.now{
+    background-color: greenyellow;
+  }
+</style>
+<body>
+  <div id="screen" class="waiting">클릭해서 시작하세요</div>
+  <div id="result"></div>
+
+<script>
+const $screen = document.querySelector('#screen');
+const $result = document.querySelector('#result');
+
+// e.target 과 같다. 클릭한 스크린이 ~~를 포함하고 있으면 -> 포함하는 화면을 클릭하면
+let startTime;
+let endTime;
+let timeoutID;
+const gapArr = [];
+$screen.addEventListener('click',()=>{
+  if($screen.classList.contains('waiting')){
+    $screen.classList.replace('waiting','ready')
+    $screen.textContent = '초록색이 나오면 클릭하세요.'
+    timeoutID = setTimeout(()=>{
+      startTime = new Date();
+      $screen.classList.replace('ready','now');
+      $screen.textContent = '바로 지금!!'
+    } , ~~(Math.random()*1000*5)) //0~5초 랜덤
+  }
+  else if($screen.classList.contains('ready')){
+    clearTimeout(timeoutID);
+    $screen.classList.replace('ready','waiting');
+    $screen.textContent = '너무 성급하시군요'
+  }
+  else if($screen.classList.contains('now')){
+    endTime = new Date();
+    $screen.classList.replace('now','waiting');
+    $screen.textContent = '클릭해서 시작하세요'
+    let gap = endTime - startTime
+    gapArr.push(gap);
+    const ave = gapArr.reduce((a,c)=>a+c,0) / gapArr.length;
+    $result.textContent = `반응속도: ${gap}ms , 평균 : ${ave}ms`
+    const fastest = gapArr.sort((a,b)=>a-b).slice(0,5);
+    fastest.forEach((v,i)=>{
+      $result.append(
+        document.createElement('br'),`${i+1}위 : ${v}ms`,)
+    })
+  }
+})
+// 화면을 클릭하면 무슨 색인지 체크
+</script>
+</body>
+</html>

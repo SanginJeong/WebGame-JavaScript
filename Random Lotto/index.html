@@ -1,0 +1,69 @@
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로또 추첨기</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://kit.fontawesome.com/3e7a68d981.js" crossorigin="anonymous"></script>
+  <style>
+    .ball {
+      display: inline-block;
+      border: 1px solid black;
+      border-radius: 20px;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 20px;
+      text-align: center;
+      margin-right: 20px;
+    }
+    .answerBalls{
+      margin-top: 30px;
+      display: flex;
+    }
+    #bonus, #myBonus{
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+    }
+    .fa-plus{
+      margin-right: 20px;
+    }
+    #inputNumber{
+      width: 50px;
+      overflow: hidden;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+    .hidden{
+      display: none;
+    }
+    #showresult{
+      font-size: 30px;
+    }
+    /* <i class="fa-solid fa-plus"></i> */
+  </style>
+</head>
+<body>
+  <div>
+    <button id="auto">자동</button>
+    <button id="self">수동</button>
+  </div>
+  <div class="answerBalls">
+    <div id="result"></div>
+    <div id="bonus"></div>
+  </div>
+  <div class="answerBalls">
+    <form id="form" class="hidden">
+      <input type="number" id="inputNumber"/>
+      <button>입력</button>
+    </form>
+    <div id="myResult"></div>
+    <div id="myBonus"></div>
+  </div>
+  <script src="./script.js"></script>
+</body>
+</html>
