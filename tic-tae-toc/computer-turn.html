@@ -30,7 +30,7 @@
     const $result = document.createElement('div');
     const rows = [];
     let turn = 'O';
-    let currentPlayer = 'Player1';
+    let currentPlayer = 'Player';
     // tr,td만들기 + rows에 넣기
     for(let i=0; i<3; i++){
       const $tr = document.createElement('tr'); // $tr === tr
@@ -47,8 +47,8 @@
     body.append($result);
 
     const checkWinner = (e) =>{
-      const rowIndex = e.target.parentNode.rowIndex;
-      const cellIndex = e.target.cellIndex;
+      const rowIndex = e.parentNode.rowIndex;
+      const cellIndex = e.cellIndex;
       let winner = false;
       // 가로 검사
       if(rows[rowIndex][0].textContent === turn && rows[rowIndex][1].textContent === turn && rows[rowIndex][2].textContent === turn){
@@ -67,29 +67,15 @@
       }
       return winner
     }
-    // 끝날 시 이벤트리스너 remove하기 위해 또 써야하니까 애초에 함수로 빼내기
-    const callback = (e) =>{
-      // 빈 칸인지 검사하기
-      if(e.target.textContent){
-        $result.textContent = '이미 선택된 자리입니다.'
-        return
-      }
-      // 현재 플레이어
-      currentPlayer = turn === 'O' ? 'Player1' : 'Player2'
-      console.log(currentPlayer);
 
-      // td태그에 turn 넣기
-      e.target.textContent = turn
-      
-      // 승패 판단
-      //checkWinner안에서 result를 정해주고 return을해버려도 callback이 끝나는게 아니기때문에 result가 빈값이 됨. -> checkWinner에서 값을 받아오고 callback에서 return하자.
-      const winner = checkWinner(e);
+    const checkWinnerAndDraw = (target) =>{
+      // 승무패 판단하기
+      const winner = checkWinner(target);
       if(winner){
         $result.textContent = `${currentPlayer}님이 승리하셨습니다.`
         $table.removeEventListener('click',callback) // callback 함수를 클릭하는 이벤트를 없애겠다. 
         return 
       }
-      // 무승부 판단 : 9칸 모두 다차면 -> 1칸이라도 남아있으면
       const draw = rows.flat().every((cell)=>cell.textContent);
       console.log(draw);
       if(draw){
@@ -97,11 +83,47 @@
         $table.removeEventListener('click',callback);
         return
       }
-      // 클릭이 완료될 시 result 창 지우기
-      $result.textContent = '';
-      
-      // 턴 넘기기
+      // turn 다시 넘기기
       turn = turn === 'O' ? 'X' : 'O'
+    }
+
+    let clickable = true;
+    // 끝날 시 이벤트리스너 remove하기 위해 또 써야하니까 애초에 함수로 빼내기
+    const callback = (e) =>{
+      if(!clickable){
+        return
+      }
+      // 빈 칸인지 검사하기
+      if(e.target.textContent){
+        $result.textContent = '이미 선택된 자리입니다.'
+        return
+      }
+      // 현재 플레이어
+      currentPlayer = turn === 'O' ? 'Player' : 'Computer'
+      console.log(currentPlayer);
+
+      // td태그에 turn 넣기
+      e.target.textContent = turn
+      
+      // 승패 판단
+      //checkWinner안에서 result를 정해주고 return을해버려도 callback이 끝나는게 아니기때문에 result가 빈값이 됨. -> checkWinner에서 값을 받아오고 callback에서 return하자.
+      checkWinnerAndDraw(e.target);
+      
+      // turn 이 넘어가서 컴퓨터이면
+      if(turn === 'X'){
+        clickable = false;
+        currentPlayer = 'Computer'
+        // 빈 칸 찾기
+        setTimeout(()=>{
+          const emptyCells = rows.flat().filter((cell)=>!cell.textContent);
+          // 빈 칸 중에서 랜덤으로 고르기
+          const randomPick = emptyCells[Math.floor(Math.random()*emptyCells.length)]
+          // td 태그에 턴 넣기
+          randomPick.textContent = turn;
+          checkWinnerAndDraw(randomPick);
+          clickable = true;
+        },1000)
+      }
     }
 
     $table.addEventListener('click', callback)
